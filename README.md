@@ -43,9 +43,9 @@ Backend Progression — Strix Halo gfx1151, 128GB unified
 
   Vulkan llamacpp    82.5 tok/s   ████████████████░░░░░░░░░░░░░░░
   vLLM ROCm         116.7 tok/s   ███████████████████████░░░░░░░░
-  MLX ROCm          149.3 tok/s   █████████████████████████████▌
+  MLX ROCm          151.2 tok/s   ██████████████████████████████▌
 
-  +81% improvement from Vulkan to MLX.
+  +83% improvement from Vulkan to MLX.
 ```
 
 ---
@@ -65,9 +65,9 @@ Backend Progression — Strix Halo gfx1151, 128GB unified
 
 ### head-to-head
 
-| model | mlx | vllm | vulkan | mlx vs vulkan |
+| model | mlx | vllm | vulkan | mlx advantage |
 |-------|-----|------|--------|---------------|
-| Qwen3-0.6B | **151.2** | 116.7 | 82.5 | **+83%** |
+| Qwen3-0.6B | **151.2** | 116.7 | 82.5 | **+83% vs vulkan** |
 | Qwen3-4B | **46.9** | 25.4 | — | **+85% vs vllm** |
 | Qwen3-8B | **21.7** | 12.3 | — | **+76% vs vllm** |
 | Phi-4-mini | **38.3** | 25.1 | — | **+53% vs vllm** |

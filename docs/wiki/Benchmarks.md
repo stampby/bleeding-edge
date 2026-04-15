@@ -39,9 +39,8 @@
 
 | Model | tok/s | ±StdDev | Notes |
 |-------|-------|---------|-------|
-| Qwen3.5-35B-A3B (MoE) | 83.7 | ±0.1 | Server-side timings |
-| Qwen3-Coder-30B (MoE) | 83.7 | ±0.1 | Same ~3B active |
-| Qwen3-0.6B (MoE) | 83.7 | ±0.1 | Same ~3B active |
+| Qwen3.5-35B-A3B (MoE) | 83.7 | ±0.1 | ~3B active params |
+| Qwen3-Coder-30B (MoE) | 83.7 | ±0.1 | ~3B active params |
 
 ## Head-to-Head Comparison
 
