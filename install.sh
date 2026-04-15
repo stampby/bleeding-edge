@@ -218,9 +218,17 @@ log "Step 6/7: Testing inference..."
 # Start server temporarily
 LD_LIBRARY_PATH="$INSTALL_DIR" "$INSTALL_DIR/server" --port "$MLX_PORT" --host "$MLX_HOST" &
 SERVER_PID=$!
-sleep 3
 
-if curl -s "http://${MLX_HOST}:${MLX_PORT}/health" | grep -q "ok"; then
+# Wait for server to be ready (up to 15 seconds)
+log "Waiting for server..."
+for i in $(seq 1 15); do
+    if curl -s "http://${MLX_HOST}:${MLX_PORT}/health" 2>/dev/null | grep -q "ok"; then
+        break
+    fi
+    sleep 1
+done
+
+if curl -s "http://${MLX_HOST}:${MLX_PORT}/health" 2>/dev/null | grep -q "ok"; then
     ok "Server running on port $MLX_PORT"
 
     log "Loading model: $MODEL (first run downloads from HuggingFace)..."
