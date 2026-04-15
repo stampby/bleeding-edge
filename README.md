@@ -50,20 +50,19 @@ Backend Progression — Strix Halo gfx1151, 128GB unified
 
 ---
 
-## benchmarks
+## benchmarks — standardized burn (2026-04-15)
 
-### mlx engine rocm — 5 runs, mean ± stddev
+4 backends. 16 models. 256 token generation. 3 rounds. stddev < 1 tok/s. `bench.sh` in this repo.
 
-| model | tok/s | ±stddev | notes |
-|-------|-------|---------|-------|
-| Qwen3-0.6B-4bit | **151.2** | ±0.1 | routing / triage |
-| Qwen3-1.7B-4bit | **66.4** | ±0.0 | fast general |
-| Qwen3-4B-4bit | **46.9** | ±0.0 | sweet spot |
-| Phi-4-mini-instruct-4bit | **38.3** | ±0.0 | microsoft phi |
-| Qwen3-Coder-Next-4bit | **26.7** | ±0.0 | latest coding model |
-| Qwen3-8B-4bit | **21.7** | ±0.0 | heavy reasoning |
+### mlx engine rocm — hipBLASLt (gfx1151)
 
-### head-to-head
+| model | size | tok/s | ±stddev |
+|-------|------|------:|--------:|
+| Qwen3-0.6B-4bit | 0.4 GB | **149.3** | ±0.3 |
+| Qwen3-1.7B-4bit | 1.1 GB | **65.2** | ±0.2 |
+| Qwen3-4B-4bit | 2.6 GB | **44.5** | ±0.1 |
+| Phi-4-mini-4bit | 2.5 GB | **37.0** | ±0.2 |
+| Qwen3-8B-4bit | 5.0 GB | **20.8** | ±0.1 |
 
 | model | mlx | vllm | vulkan | mlx advantage |
 |-------|-----|------|--------|---------------|
@@ -72,9 +71,28 @@ Backend Progression — Strix Halo gfx1151, 128GB unified
 | Qwen3-8B | **21.7** | 12.3 | — | **+76% vs vllm** |
 | Phi-4-mini | **38.3** | 25.1 | — | **+53% vs vllm** |
 
-> full benchmark data: [wiki/Benchmarks](docs/wiki/Benchmarks.md) · [raw json](benchmarks/)
+### vllm rocm (gfx1151)
 
-### three backends, one machine — standardized burn (2026-04-15)
+| model | size | tok/s | ±stddev |
+|-------|------|------:|--------:|
+| Qwen3-0.6B | 1.2 GB | **130.6** | ±0.6 |
+| Qwen3-1.7B | 3.4 GB | **47.1** | ±0.2 |
+| Qwen3-4B-AWQ | 2.5 GB | **41.5** | ±0.1 |
+| Phi-4-mini | 7.6 GB | **24.9** | ±0.0 |
+| Qwen3-8B-AWQ | 4.9 GB | **22.3** | ±0.1 |
+
+### head-to-head — four backends
+
+| model | mlx rocm | vllm rocm | vulkan | npu |
+|-------|------:|------:|------:|------:|
+| Qwen3-0.6B | **149.3** | 130.6 | 82.5 | 94.4 |
+| Qwen3-1.7B | **65.2** | 47.1 | — | — |
+| Qwen3-4B | **44.5** | 41.5 (AWQ) | — | — |
+| Qwen3-8B | **20.8** | 22.3 (AWQ) | — | 10.8 |
+
+> raw csv: [results/RESULTS-20260415.csv](results/RESULTS-20260415.csv) · [wiki/Benchmarks](docs/wiki/Benchmarks.md)
+
+### three backends, one machine — GPU + NPU + Vulkan simultaneous
 
 256 token generation, 3 rounds, stddev reported. `bench.sh` in this repo. all three backends running simultaneously.
 

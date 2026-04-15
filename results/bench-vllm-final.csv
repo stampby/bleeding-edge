@@ -1,0 +1,6 @@
+backend,model,hardware,avg_tok_s,stddev,avg_ttft_s,completion_tokens
+vllm,Qwen3-0.6B,GPU-ROCm,130.6,0.6,0,256
+vllm,Qwen3-1.7B,GPU-ROCm,47.1,0.2,0,256
+vllm,Qwen3-4B-AWQ,GPU-ROCm,41.5,0.1,0,256
+vllm,Qwen3-8B-AWQ,GPU-ROCm,22.3,0.1,0,256
+vllm,Phi-4-mini,GPU-ROCm,24.9,0.0,0,256
