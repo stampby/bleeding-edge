@@ -43,9 +43,9 @@ Backend Progression — Strix Halo gfx1151, 128GB unified
 
   Vulkan llamacpp    82.5 tok/s   ████████████████░░░░░░░░░░░░░░░
   vLLM ROCm         116.7 tok/s   ███████████████████████░░░░░░░░
-  MLX ROCm          151.2 tok/s   ██████████████████████████████▌
+  MLX ROCm          149.3 tok/s   █████████████████████████████▌
 
-  +83% improvement from Vulkan to MLX.
+  +81% improvement from Vulkan to MLX.
 ```
 
 ---
@@ -73,6 +73,32 @@ Backend Progression — Strix Halo gfx1151, 128GB unified
 | Phi-4-mini | **38.3** | 25.1 | — | **+53% vs vllm** |
 
 > full benchmark data: [wiki/Benchmarks](docs/wiki/Benchmarks.md) · [raw json](benchmarks/)
+
+### three backends, one machine — standardized burn (2026-04-15)
+
+256 token generation, 3 rounds, stddev reported. `bench.sh` in this repo. all three backends running simultaneously.
+
+**Prism llama.cpp — Vulkan 1-bit**
+
+| model | quant | size | tok/s | stddev |
+|-------|-------|------|------:|-------:|
+| Qwen3-Coder-Next | TQ1_0 (1-bit) | 3.2 GB | **65.6** | ±0.8 |
+
+1-bit inference via [PrismML llama.cpp fork](https://github.com/PrismML-Eng/llama.cpp). ternary weights at 1.69 bpw.
+
+**lemond/FastFlowLM — RyzenAI NPU (aie2p · 50 TOPS)**
+
+| model | size | tok/s | stddev | TTFT |
+|-------|------|------:|-------:|-----:|
+| Qwen3-0.6B-FLM | 0.7 GB | **94.4** | ±0.2 | 0.46s |
+| Llama-3.2-1B-FLM | 1.3 GB | **61.7** | ±0.2 | 0.38s |
+| Gemma3-1B-FLM | 1.2 GB | **38.9** | ±0.0 | 0.53s |
+| Llama-3.2-3B-FLM | 2.7 GB | **24.9** | ±0.0 | 0.77s |
+| Qwen3-8B-FLM | 5.6 GB | **10.8** | ±0.0 | 1.28s |
+
+zero GPU memory used. NPU runs independently — always-on agents while GPU handles big models.
+
+> raw csv: [results/RESULTS-20260415.csv](results/RESULTS-20260415.csv)
 
 ---
 

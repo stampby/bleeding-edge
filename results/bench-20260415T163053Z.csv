@@ -1,0 +1,12 @@
+backend,model,hardware,avg_tok_s,stddev,avg_ttft_s,completion_tokens
+mlx,Qwen3-0.6B-4bit,GPU-ROCm,0,0.0,0,0
+mlx,Qwen3-1.7B-4bit,GPU-ROCm,0,0.0,0,0
+mlx,Qwen3-4B-4bit,GPU-ROCm,0,0.0,0,0
+mlx,Qwen3-8B-4bit,GPU-ROCm,0,0.0,0,0
+mlx,Phi-4-mini-4bit,GPU-ROCm,37.1,0.0,0,256
+prism,Qwen3-Coder-Next-TQ1_0,GPU-Vulkan,0,0.0,0,0
+lemond,Qwen3-0.6B-FLM,NPU-FLM,0,0.0,0,0
+lemond,Qwen3-8B-FLM,NPU-FLM,0,0.0,0,0
+lemond,Llama-3.2-1B-FLM,NPU-FLM,0,0.0,0,0
+lemond,Llama-3.2-3B-FLM,NPU-FLM,0,0.0,0,0
+lemond,Gemma3-1B-FLM,NPU-FLM,0,0.0,0,0

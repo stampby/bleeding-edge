@@ -1,0 +1,6 @@
+backend,model,hardware,avg_tok_s,stddev,avg_ttft_s,completion_tokens
+mlx,Qwen3-0.6B-4bit,GPU-ROCm,147.7,1.2,0,256
+mlx,Qwen3-1.7B-4bit,GPU-ROCm,65.3,0.0,0,256
+mlx,Qwen3-4B-4bit,GPU-ROCm,44.6,0.0,0,256
+mlx,Qwen3-8B-4bit,GPU-ROCm,20.9,0.0,0,256
+mlx,Phi-4-mini-4bit,GPU-ROCm,37.1,0.1,0,256

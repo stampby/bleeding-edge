@@ -1,0 +1,5 @@
+{"backend":"mlx","model":"Qwen3-0.6B-4bit","hardware":"GPU-ROCm","port":8080,"avg_tps":147.7,"stddev":1.2,"avg_ttft":0,"rounds":3,"max_tokens":256,"timestamp":"20260415T162222Z"}
+{"backend":"mlx","model":"Qwen3-1.7B-4bit","hardware":"GPU-ROCm","port":8080,"avg_tps":65.3,"stddev":0.0,"avg_ttft":0,"rounds":3,"max_tokens":256,"timestamp":"20260415T162222Z"}
+{"backend":"mlx","model":"Qwen3-4B-4bit","hardware":"GPU-ROCm","port":8080,"avg_tps":44.6,"stddev":0.0,"avg_ttft":0,"rounds":3,"max_tokens":256,"timestamp":"20260415T162222Z"}
+{"backend":"mlx","model":"Qwen3-8B-4bit","hardware":"GPU-ROCm","port":8080,"avg_tps":20.9,"stddev":0.0,"avg_ttft":0,"rounds":3,"max_tokens":256,"timestamp":"20260415T162222Z"}
+{"backend":"mlx","model":"Phi-4-mini-4bit","hardware":"GPU-ROCm","port":8080,"avg_tps":37.1,"stddev":0.1,"avg_ttft":0,"rounds":3,"max_tokens":256,"timestamp":"20260415T162222Z"}
