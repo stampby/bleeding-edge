@@ -78,6 +78,14 @@ Backend Progression — Strix Halo gfx1151, 128GB unified
 
 ## quick start
 
+### see it in action
+
+```bash
+asciinema play bleeding-edge-install.cast
+# or: curl -sL https://raw.githubusercontent.com/stampby/bleeding-edge/main/install.sh | bash
+```
+
+
 ### 30-second setup
 
 ```bash
