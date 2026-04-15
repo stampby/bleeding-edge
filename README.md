@@ -1,19 +1,42 @@
 <!-- "Cubically Contained" — The Headstones -->
+<!-- "Little bones, little bones, everywhere I go" — Gord Downie -->
 <!-- If you found this, you're one of us. -->
 
+<div align="center">
+
+🌐 **English** | [Français](README.fr.md) | [Español](README.es.md) | [Deutsch](README.de.md) | [Português](README.pt.md) | [日本語](README.ja.md) | [中文](README.zh.md) | [한국어](README.ko.md) | [Русский](README.ru.md) | [हिन्दी](README.hi.md) | [العربية](README.ar.md)
+
 # bleeding-edge
+
+### the next generation of local ai inference on amd strix halo
+
+**mlx engine rocm · 151 tok/s · 83% faster than vulkan · pure c++ · no python · no gguf wait**
+
+*stamped by the architect*
+
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![ROCm](https://img.shields.io/badge/ROCm_7.12.0-ED1C24?style=flat&logo=amd&logoColor=white)](https://github.com/ROCm/TheRock)
+[![MLX](https://img.shields.io/badge/MLX_Engine-b1004-00d4ff?style=flat)](https://github.com/lemonade-sdk/lemon-mlx-engine)
+[![Lemonade](https://img.shields.io/badge/Lemonade_10.2.0-00d4ff?style=flat&logo=amd&logoColor=white)](https://github.com/lemonade-sdk/lemonade)
+[![Discord](https://img.shields.io/badge/Discord-halo--ai-5865F2?style=flat&logo=discord&logoColor=white)](https://discord.gg/dSyV646eBs)
+[![Reddit](https://img.shields.io/badge/Reddit-r/MidlifeCrisisAI-FF4500?style=flat&logo=reddit&logoColor=white)](https://www.reddit.com/r/MidlifeCrisisAI/)
+[![Wiki](https://img.shields.io/badge/Wiki-3_pages-00d4ff?style=flat&logo=github&logoColor=white)](docs/wiki/Home.md)
+[![Self Hosted](https://img.shields.io/badge/Self_Hosted-100%25_Local-purple?style=flat)](https://github.com/stampby/bleeding-edge)
+[![halo-ai core](https://img.shields.io/badge/halo--ai_core-stable-green?style=flat)](https://github.com/stampby/halo-ai-core)
+
+</div>
+
+---
 
 > *"Cubically Contained" — The Headstones*
 
 The experimental branch of [halo-ai CORE](https://github.com/stampby/halo-ai-core). This is where the next generation gets tested before it ships.
 
-**Current focus:** MLX Engine ROCm — pure C++ LLM inference on AMD Strix Halo.
-
 ---
 
-## Why MLX
+## the progression
 
-We tested three inference backends on the same hardware, same day. Same desk.
+Three backends. Same hardware. Same day. Same desk.
 
 ```
 Backend Progression — Strix Halo gfx1151, 128GB unified
@@ -25,55 +48,44 @@ Backend Progression — Strix Halo gfx1151, 128GB unified
   +83% improvement from Vulkan to MLX.
 ```
 
-MLX wins because it's pure C++ — no Python, no Triton JIT, no subprocess overhead. Designed for unified memory from day one (Apple Silicon → Strix Halo).
-
 ---
 
-## Benchmarks
+## benchmarks
 
-### MLX Engine ROCm — 5 runs, mean ± stddev, 200 tokens
+### mlx engine rocm — 5 runs, mean ± stddev
 
-| Model | tok/s | ±StdDev | Notes |
+| model | tok/s | ±stddev | notes |
 |-------|-------|---------|-------|
-| Qwen3-0.6B-4bit | **151.2** | ±0.1 | Routing / triage |
-| Qwen3-1.7B-4bit | **66.4** | ±0.0 | Fast general |
-| Qwen3-4B-4bit | **46.9** | ±0.0 | Sweet spot |
-| Phi-4-mini-instruct-4bit | **38.3** | ±0.0 | Microsoft Phi |
-| Qwen3-Coder-Next-4bit | **26.7** | ±0.0 | Latest coding model |
-| Qwen3-8B-4bit | **21.7** | ±0.0 | Heavy reasoning |
+| Qwen3-0.6B-4bit | **151.2** | ±0.1 | routing / triage |
+| Qwen3-1.7B-4bit | **66.4** | ±0.0 | fast general |
+| Qwen3-4B-4bit | **46.9** | ±0.0 | sweet spot |
+| Phi-4-mini-instruct-4bit | **38.3** | ±0.0 | microsoft phi |
+| Qwen3-Coder-Next-4bit | **26.7** | ±0.0 | latest coding model |
+| Qwen3-8B-4bit | **21.7** | ±0.0 | heavy reasoning |
 
-### Head-to-Head: MLX vs vLLM vs Vulkan
+### head-to-head
 
-| Model | MLX | vLLM | Vulkan | MLX vs Vulkan |
+| model | mlx | vllm | vulkan | mlx vs vulkan |
 |-------|-----|------|--------|---------------|
 | Qwen3-0.6B | **151.2** | 116.7 | 82.5 | **+83%** |
-| Qwen3-4B | **46.9** | 25.4 | — | **+85% vs vLLM** |
-| Qwen3-8B | **21.7** | 12.3 | — | **+76% vs vLLM** |
-| Phi-4-mini | **38.3** | 25.1 | — | **+53% vs vLLM** |
+| Qwen3-4B | **46.9** | 25.4 | — | **+85% vs vllm** |
+| Qwen3-8B | **21.7** | 12.3 | — | **+76% vs vllm** |
+| Phi-4-mini | **38.3** | 25.1 | — | **+53% vs vllm** |
 
-### vLLM ROCm (for comparison)
-
-Tested via [lemonade-sdk/lemonade PR #1537](https://github.com/lemonade-sdk/lemonade/pull/1537):
-
-| Model | tok/s | Notes |
-|-------|-------|-------|
-| Qwen3-0.6B (FP16) | 116.7 | |
-| Llama-3.2-1B (AWQ) | 110.4 | |
-| Llama-3.2-3B (AWQ) | 50.5 | |
-| Qwen3-4B (AWQ) | 42.8 | |
-| Qwen3-8B (AWQ) | 22.8 | |
-| Qwen2.5-72B (AWQ) | 2.3 | 72B dense on 128GB unified |
+> full benchmark data: [wiki/Benchmarks](docs/wiki/Benchmarks.md) · [raw json](benchmarks/)
 
 ---
 
-## Quick Start
+## quick start
 
-### Pre-built Binary (30 seconds)
+### 30-second setup
 
 ```bash
 mkdir -p ~/mlx-engine && cd ~/mlx-engine
 
-# Download for Strix Halo (gfx1151)
+# download for your gpu
+# gfx1151 = strix halo | gfx1150 = strix point
+# gfx110X = rdna3       | gfx120X = rdna4
 gh release download b1004-tech-preview \
   -R lemonade-sdk/lemon-mlx-engine \
   -p '*gfx1151*'
@@ -81,58 +93,98 @@ gh release download b1004-tech-preview \
 unzip mlx-engine-*-gfx1151-x64.zip -d .
 chmod +x chat server diagnose
 
-# Verify GPU
+# verify gpu
 LD_LIBRARY_PATH=. ./diagnose mlx-community/Qwen3-1.7B-4bit
 
-# Chat
+# chat
 LD_LIBRARY_PATH=. ./chat mlx-community/Qwen3-4B-4bit
 
-# API server
+# api server (openai-compatible)
 LD_LIBRARY_PATH=. ./server --port 8090
 ```
 
-Models auto-download from HuggingFace. No GGUF. No conversion. No waiting.
+models auto-download from huggingface. no gguf. no conversion. no waiting.
 
-### Full Setup Guide
-
-See [docs/mlx-setup-guide.md](docs/mlx-setup-guide.md) — every command, every dependency, every gotcha. No bullshit.
+> full guide: [docs/mlx-setup-guide.md](docs/mlx-setup-guide.md) · replicate our benchmarks: [docs/replicate.md](docs/replicate.md)
 
 ---
 
-## Hardware
+## why mlx
+
+| | mlx engine | vllm rocm | vulkan llamacpp |
+|---|---|---|---|
+| **language** | c++ | python + c++ | c++ |
+| **cold start** | seconds | minutes (triton jit) | seconds |
+| **model format** | huggingface native | huggingface native | gguf only |
+| **day-one models** | yes | yes | wait for gguf |
+| **dependencies** | none (static binary) | python, torch, triton | vulkan drivers |
+| **multi-user** | no (single user) | yes (pagedattention) | limited |
+
+> architecture deep dive: [wiki/Architecture](docs/wiki/Architecture.md)
+
+---
+
+## the stack
 
 ```
-AMD Ryzen AI MAX+ PRO 395
-Radeon 8060S (gfx1151)
-128GB unified memory
-CachyOS (Arch Linux), kernel 7.0.0-1-mainline
+┌──────────────────────────────────────────┐
+│  applications (discord agents, chat, api) │
+├──────────────────────────────────────────┤
+│  lemonade sdk 10.2 — model router         │
+├────────────┬────────────┬────────────────┤
+│ mlx engine │ vllm rocm  │ llamacpp vulkan│
+│ (bleeding) │ (pr #1537) │ (stable)       │
+├────────────┴────────────┴────────────────┤
+│  rocm 7.12 (portable) / 7.2.1 (system)   │
+├──────────────────────────────────────────┤
+│  amd strix halo gfx1151 · 128gb unified  │
+│  npu: xdna2 via lemonade flm             │
+└──────────────────────────────────────────┘
 ```
 
 ---
 
-## Stack
+## hardware tested
 
-| Layer | What |
-|-------|------|
-| **Inference** | MLX Engine ROCm (bleeding-edge) / Vulkan llamacpp (stable) |
-| **Model Router** | Lemonade SDK 10.2.0 |
-| **NPU** | Lemonade FLM (XDNA2) — runs alongside GPU |
-| **TTS** | Kokoro v1 |
-| **ASR** | Whisper Large v3 Turbo |
-| **Image** | SD-Turbo + Flux via sd-cpp |
-| **Cognitive** | Living Mind Cortex v2.0 |
+```
+amd ryzen ai max+ pro 395
+radeon 8060s (gfx1151)
+128gb unified memory
+cachyos (arch linux), kernel 7.0.0-1-mainline
+```
 
 ---
 
-## Related
+## docs
 
-- [halo-ai-core](https://github.com/stampby/halo-ai-core) — Stable release
-- [lemon-mlx-engine](https://github.com/lemonade-sdk/lemon-mlx-engine) — Upstream MLX engine
-- [Lemonade SDK](https://github.com/lemonade-sdk/lemonade) — Model router
-- [r/MidlifeCrisisAI](https://reddit.com/r/MidlifeCrisisAI) — Benchmarks, stories, community
+| document | description |
+|----------|-------------|
+| [mlx setup guide](docs/mlx-setup-guide.md) | full setup from scratch — every command, every dependency |
+| [replicate benchmarks](docs/replicate.md) | reproduce our numbers with the included script |
+| [wiki/home](docs/wiki/Home.md) | wiki navigation |
+| [wiki/benchmarks](docs/wiki/Benchmarks.md) | all three backends compared |
+| [wiki/architecture](docs/wiki/Architecture.md) | why mlx wins, stack diagram |
+| [security](SECURITY.md) | vulnerability reporting, hardening |
+| [contributing](CONTRIBUTING.md) | how to submit benchmarks and report bugs |
 
 ---
 
-*"Little bones, little bones, everywhere I go" — Gord Downie*
+## related
 
-*Designed and built by the architect.*
+| | |
+|---|---|
+| **[halo-ai core](https://github.com/stampby/halo-ai-core)** | stable release — 13 services, install script, full stack |
+| **[lemon-mlx-engine](https://github.com/lemonade-sdk/lemon-mlx-engine)** | upstream mlx engine |
+| **[lemonade sdk](https://github.com/lemonade-sdk/lemonade)** | model router and backend manager |
+| **[discord](https://discord.gg/dSyV646eBs)** | community — 8 ai agents, 24/7 |
+| **[r/MidlifeCrisisAI](https://reddit.com/r/MidlifeCrisisAI)** | benchmarks, stories, write-ups |
+
+---
+
+<div align="center">
+
+*"little bones, little bones, everywhere i go" — gord downie*
+
+*designed and built by the architect*
+
+</div>
