@@ -1,0 +1,38 @@
+name: Benchmark Report
+description: Share your benchmark results on different hardware
+title: "[BENCH] "
+labels: ["benchmark"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share your numbers! Use the benchmark script from docs/replicate.md.
+  - type: input
+    id: gpu
+    attributes:
+      label: GPU
+      placeholder: "AMD Radeon 8060S (gfx1151)"
+    validations:
+      required: true
+  - type: input
+    id: memory
+    attributes:
+      label: Memory
+      placeholder: "128GB unified"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS / Kernel
+      placeholder: "CachyOS, kernel 7.0.0-1-mainline"
+    validations:
+      required: true
+  - type: textarea
+    id: results
+    attributes:
+      label: Benchmark Results
+      description: Paste your benchmark output here
+      render: shell
+    validations:
+      required: true

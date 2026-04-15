@@ -1,0 +1,49 @@
+name: Bug Report
+description: Report a build failure, inference error, or unexpected behavior
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Include as much detail as possible.
+  - type: input
+    id: gpu
+    attributes:
+      label: GPU
+      description: GPU model and architecture
+      placeholder: "AMD Radeon 8060S (gfx1151)"
+    validations:
+      required: true
+  - type: input
+    id: memory
+    attributes:
+      label: Memory
+      placeholder: "128GB unified"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS / Kernel
+      placeholder: "CachyOS, kernel 7.0.0-1-mainline"
+    validations:
+      required: true
+  - type: dropdown
+    id: backend
+    attributes:
+      label: Backend
+      options:
+        - MLX Engine ROCm
+        - vLLM ROCm
+        - Vulkan llamacpp
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Steps to reproduce and error output
+    validations:
+      required: true
