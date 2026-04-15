@@ -1,0 +1,107 @@
+{
+  "results": [
+    {
+      "model": "Qwen3-0.6B-4bit",
+      "pass": true,
+      "mean_tps": 151.2,
+      "stddev": 0.1,
+      "min": 151.1,
+      "max": 151.4,
+      "runs": 5,
+      "load_time_s": 2.7
+    },
+    {
+      "model": "Qwen3-1.7B-4bit",
+      "pass": true,
+      "mean_tps": 66.4,
+      "stddev": 0.0,
+      "min": 66.3,
+      "max": 66.4,
+      "runs": 5,
+      "load_time_s": 3.1
+    },
+    {
+      "model": "Qwen3-4B-4bit",
+      "pass": true,
+      "mean_tps": 46.9,
+      "stddev": 0.0,
+      "min": 46.9,
+      "max": 46.9,
+      "runs": 5,
+      "load_time_s": 3.7
+    },
+    {
+      "model": "Qwen3-8B-4bit",
+      "pass": true,
+      "mean_tps": 21.7,
+      "stddev": 0.0,
+      "min": 21.7,
+      "max": 21.7,
+      "runs": 5,
+      "load_time_s": 5.2
+    },
+    {
+      "model": "Phi-4-mini-instruct-4bit",
+      "pass": true,
+      "mean_tps": 38.3,
+      "stddev": 0.0,
+      "min": 38.3,
+      "max": 38.4,
+      "runs": 5,
+      "load_time_s": 3.4
+    },
+    {
+      "model": "Qwen3-Coder-Next-4bit",
+      "pass": true,
+      "mean_tps": 26.7,
+      "stddev": 0.0,
+      "min": 26.7,
+      "max": 26.8,
+      "runs": 5,
+      "load_time_s": 438.8
+    },
+    {
+      "model": "bitnet-b1.58-2B-4T",
+      "pass": false,
+      "error": "warmup failed",
+      "load_time_s": 28.1
+    },
+    {
+      "model": "Falcon-E-3B-Instruct-1.58bit",
+      "pass": false,
+      "error": "warmup failed",
+      "load_time_s": 48.5
+    },
+    {
+      "model": "Qwen3.5-32B-4bit",
+      "pass": false,
+      "error": "warmup failed",
+      "load_time_s": 2.0
+    },
+    {
+      "model": "Qwen2.5-72B-Instruct-4bit",
+      "pass": false,
+      "error": "warmup failed",
+      "load_time_s": 2.0
+    },
+    {
+      "model": "Qwen3.5-122B-A10B-4bit",
+      "pass": false,
+      "error": "warmup failed",
+      "load_time_s": 2.0
+    },
+    {
+      "model": "DeepSeek-V3-4bit",
+      "pass": false,
+      "error": "warmup failed",
+      "load_time_s": 2.0
+    }
+  ],
+  "engine": "lemon-mlx-engine b1004-tech-preview",
+  "rocm": "7.12.0",
+  "gpu": "gfx1151",
+  "date": "2026-04-15T05:07:06.579334",
+  "runs": 5,
+  "warmup": 2,
+  "max_tokens": 200
+}

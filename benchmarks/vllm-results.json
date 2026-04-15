@@ -1,0 +1,168 @@
+{
+  "results": [
+    {
+      "model": "Qwen3-0.6B-vllm",
+      "pass": true,
+      "mean_tps": 116.7,
+      "stddev": 0.2,
+      "min": 116.4,
+      "max": 116.9,
+      "runs": 5,
+      "load_time_s": 17.0,
+      "lemonade_tps": "N/A",
+      "ttft": "N/A"
+    },
+    {
+      "model": "Qwen3.5-0.8B-vllm",
+      "pass": false,
+      "error": "load failed",
+      "load_time_s": 0.5
+    },
+    {
+      "model": "Qwen3-1.7B-vllm",
+      "pass": true,
+      "mean_tps": 25.1,
+      "stddev": 26.0,
+      "min": 2.5,
+      "max": 47.7,
+      "runs": 4,
+      "load_time_s": 19.7,
+      "lemonade_tps": 0.0,
+      "ttft": 0.0
+    },
+    {
+      "model": "Qwen3.5-2B-vllm",
+      "pass": true,
+      "mean_tps": 44.0,
+      "stddev": 0.0,
+      "min": 44.0,
+      "max": 44.0,
+      "runs": 5,
+      "load_time_s": 216.2,
+      "lemonade_tps": 0.0,
+      "ttft": 0.0
+    },
+    {
+      "model": "Llama-3.2-1B-Instruct-vllm",
+      "pass": true,
+      "mean_tps": 110.4,
+      "stddev": 0.0,
+      "min": 110.3,
+      "max": 110.5,
+      "runs": 5,
+      "load_time_s": 38.4,
+      "lemonade_tps": 0.0,
+      "ttft": 0.0
+    },
+    {
+      "model": "Llama-3.2-3B-Instruct-vllm",
+      "pass": true,
+      "mean_tps": 50.5,
+      "stddev": 0.1,
+      "min": 50.3,
+      "max": 50.5,
+      "runs": 5,
+      "load_time_s": 42.8,
+      "lemonade_tps": 0.0,
+      "ttft": 0.0
+    },
+    {
+      "model": "Qwen3-4B-vllm",
+      "pass": true,
+      "mean_tps": 25.4,
+      "stddev": 0.0,
+      "min": 25.4,
+      "max": 25.4,
+      "runs": 5,
+      "load_time_s": 21.8,
+      "lemonade_tps": 0.0,
+      "ttft": 0.0
+    },
+    {
+      "model": "Qwen3-4B-AWQ-vllm",
+      "pass": true,
+      "mean_tps": 42.8,
+      "stddev": 0.0,
+      "min": 42.8,
+      "max": 42.8,
+      "runs": 5,
+      "load_time_s": 75.6,
+      "lemonade_tps": 0.0,
+      "ttft": 0.0
+    },
+    {
+      "model": "Qwen3.5-4B-vllm",
+      "pass": true,
+      "mean_tps": 23.8,
+      "stddev": 0.0,
+      "min": 23.8,
+      "max": 23.8,
+      "runs": 5,
+      "load_time_s": 331.7,
+      "lemonade_tps": 0.0,
+      "ttft": 0.0
+    },
+    {
+      "model": "Gemma-3-4b-it-vllm",
+      "pass": false,
+      "error": "load failed",
+      "load_time_s": 0.4
+    },
+    {
+      "model": "Phi-4-mini-instruct-vllm",
+      "pass": true,
+      "mean_tps": 25.1,
+      "stddev": 0.0,
+      "min": 25.1,
+      "max": 25.1,
+      "runs": 5,
+      "load_time_s": 102.0,
+      "lemonade_tps": 0.0,
+      "ttft": 0.0
+    },
+    {
+      "model": "Qwen3-8B-vllm",
+      "pass": true,
+      "mean_tps": 12.3,
+      "stddev": 0.0,
+      "min": 12.3,
+      "max": 12.3,
+      "runs": 5,
+      "load_time_s": 24.7,
+      "lemonade_tps": 0.0,
+      "ttft": 0.0
+    },
+    {
+      "model": "Qwen3-8B-AWQ-vllm",
+      "pass": true,
+      "mean_tps": 22.8,
+      "stddev": 0.0,
+      "min": 22.8,
+      "max": 22.8,
+      "runs": 5,
+      "load_time_s": 81.2,
+      "lemonade_tps": 0.0,
+      "ttft": 0.0
+    },
+    {
+      "model": "Qwen3.5-9B-vllm",
+      "pass": true,
+      "mean_tps": 11.6,
+      "stddev": 0.0,
+      "min": 11.6,
+      "max": 11.7,
+      "runs": 5,
+      "load_time_s": 309.3,
+      "lemonade_tps": 0.0,
+      "ttft": 0.0
+    }
+  ],
+  "date": "2026-04-14T17:21:13.279588",
+  "hardware": "AMD Strix Halo gfx1151, 128GB unified",
+  "kernel": "7.0.0-1-mainline",
+  "os": "CachyOS (Arch)",
+  "backend": "vLLM ROCm via Lemonade PR #1537",
+  "runs": 5,
+  "warmup": 2,
+  "max_tokens": 200
+}
