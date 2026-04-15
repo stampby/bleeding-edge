@@ -1,0 +1,7 @@
+model,size_mb,params_b,format,backend,ngl,pp512_ts,pp512_stddev,tg128_ts,tg128_stddev,date,hardware
+Bonsai-1.7B,231,1.72,Q1_0,Vulkan,99,3120.79,33.23,136.84,0.23,2026-04-15,Strix Halo gfx1151
+Bonsai-4B,540,4.02,Q1_0,Vulkan,99,1401.27,7.09,84.99,0.33,2026-04-15,Strix Halo gfx1151
+Bonsai-8B,1097,8.19,Q1_0,Vulkan,99,831.39,2.19,63.77,0.08,2026-04-15,Strix Halo gfx1151
+Qwen3-Coder-Next-80B.A3B,18063,79.67,IQ1_S,Vulkan,99,712.42,7.16,64.86,0.04,2026-04-15,Strix Halo gfx1151
+BitNet-b1.58-2B-4T,1229,2.00,i2_s,Vulkan,99,FAIL,0,FAIL,0,2026-04-15,Strix Halo gfx1151
+Falcon3-7B-1.58bit,3174,7.00,i2_s,Vulkan,99,FAIL,0,FAIL,0,2026-04-15,Strix Halo gfx1151

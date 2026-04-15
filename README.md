@@ -96,13 +96,16 @@ Backend Progression — Strix Halo gfx1151, 128GB unified
 
 256 token generation, 3 rounds, stddev reported. `bench.sh` in this repo. all three backends running simultaneously.
 
-**Prism llama.cpp — Vulkan 1-bit**
+**Prism llama.cpp — Vulkan 1-bit (native + ternary)**
 
-| model | quant | size | tok/s | stddev |
-|-------|-------|------|------:|-------:|
-| Qwen3-Coder-Next | TQ1_0 (1-bit) | 3.2 GB | **65.6** | ±0.8 |
+| model | params | quant | size | pp512 t/s | tg128 t/s |
+|-------|--------|-------|------|----------:|----------:|
+| Bonsai-1.7B | 1.72B | Q1_0 (1-bit) | 231 MB | **3,120.8** ±33 | **136.8** ±0.2 |
+| Bonsai-4B | 4.02B | Q1_0 (1-bit) | 540 MB | **1,401.3** ±7 | **85.0** ±0.3 |
+| Bonsai-8B | 8.19B | Q1_0 (1-bit) | 1.07 GB | **831.4** ±2 | **63.8** ±0.1 |
+| Qwen3-Coder-Next | 79.67B MoE | IQ1_S (1.56 bpw) | 17.6 GB | **712.4** ±7 | **64.9** ±0.0 |
 
-1-bit inference via [PrismML llama.cpp fork](https://github.com/PrismML-Eng/llama.cpp). ternary weights at 1.69 bpw.
+1-bit inference via [PrismML llama.cpp fork](https://github.com/PrismML-Eng/llama.cpp). [Bonsai](https://huggingface.co/prism-ml) = natively trained 1-bit. 8B model in 1 GB. 80B MoE in 17 GB at 65 tok/s.
 
 **lemond/FastFlowLM — RyzenAI NPU (aie2p · 50 TOPS)**
 
