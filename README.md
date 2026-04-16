@@ -10,17 +10,18 @@
 
 ### the next generation of local ai inference on amd strix halo
 
-**mlx engine rocm · 151 tok/s · 83% faster than vulkan · pure c++ · no python · no gguf wait**
+**rocm c++ · native tensile · fused ternary kernel · 153 tok/s · wave32 · built from source**
 
 *stamped by the architect*
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![ROCm](https://img.shields.io/badge/ROCm_7.12.0-ED1C24?style=flat&logo=amd&logoColor=white)](https://github.com/ROCm/TheRock)
-[![MLX](https://img.shields.io/badge/MLX_Engine-b1004-00d4ff?style=flat)](https://github.com/lemonade-sdk/lemon-mlx-engine)
+[![ROCm](https://img.shields.io/badge/TheRock_7.13-ED1C24?style=flat&logo=amd&logoColor=white)](https://github.com/ROCm/TheRock)
+[![rocm-cpp](https://img.shields.io/badge/rocm--cpp-Wave32_Ternary-00d4ff?style=flat)](https://github.com/stampby/rocm-cpp)
+[![MLX](https://img.shields.io/badge/MLX_Engine-153_tok/s-00d4ff?style=flat)](https://github.com/stampby/lemon-mlx-engine)
 [![Lemonade](https://img.shields.io/badge/Lemonade_10.2.0-00d4ff?style=flat&logo=amd&logoColor=white)](https://github.com/lemonade-sdk/lemonade)
 [![Discord](https://img.shields.io/badge/Discord-halo--ai-5865F2?style=flat&logo=discord&logoColor=white)](https://discord.gg/dSyV646eBs)
 [![Reddit](https://img.shields.io/badge/Reddit-r/MidlifeCrisisAI-FF4500?style=flat&logo=reddit&logoColor=white)](https://www.reddit.com/r/MidlifeCrisisAI/)
-[![Wiki](https://img.shields.io/badge/Wiki-3_pages-00d4ff?style=flat&logo=github&logoColor=white)](docs/wiki/Home.md)
+[![Wiki](https://img.shields.io/badge/Wiki-10_pages-00d4ff?style=flat&logo=github&logoColor=white)](https://github.com/stampby/bleeding-edge/wiki)
 [![Self Hosted](https://img.shields.io/badge/Self_Hosted-100%25_Local-purple?style=flat)](https://github.com/stampby/bleeding-edge)
 [![halo-ai core](https://img.shields.io/badge/halo--ai_core-stable-green?style=flat)](https://github.com/stampby/halo-ai-core)
 
@@ -36,17 +37,43 @@ The experimental branch of [halo-ai CORE](https://github.com/stampby/halo-ai-cor
 
 ## the progression
 
-Three backends. Same hardware. Same day. Same desk.
+Five phases. Same hardware. Each one faster than the last.
 
 ```
 Backend Progression — Strix Halo gfx1151, 128GB unified
 
-  Vulkan llamacpp    82.5 tok/s   ████████████████░░░░░░░░░░░░░░░
-  vLLM ROCm         116.7 tok/s   ███████████████████████░░░░░░░░
-  MLX ROCm          151.2 tok/s   ██████████████████████████████▌
+  Phase 1  vLLM ROCm              116.7 tok/s   ███████████████████████░░░░░░░
+  Phase 2  MLX ROCm C++           151.2 tok/s   ██████████████████████████████
+  Phase 3  Vulkan (llama.cpp)      47.4 tok/s   █████████░░░░░░░░░░░░░░░░░░░░  (sustained)
+  Phase 4  MLX C++ + TheRock      153.3 tok/s   ██████████████████████████████▌ (native Tensile)
+  Phase 5  Fused Ternary GEMV      37.5 μs/layer ← first on gfx1151
 
-  +83% improvement from Vulkan to MLX.
+  Phase 4: ROCm 7.13 built from source. 55 native Tensile kernels.
+  Phase 5: Wave32 fused ternary kernel. No dequantize. No multiply.
 ```
+
+### rocm c++ — native tensile results (2026-04-16)
+
+```
+GEMM Benchmark (FP16 TFLOPS)  — System vs TheRock Native Tensile
+
+  Shape                 System    TheRock    Change
+  ──────────────────────────────────────────────────
+  2560x6912x2560        25.04     32.97      +32%   ← BitNet FFN
+  GEMV 1x2560            0.06      0.07      +15%   ← decode path
+  GEMV 1x4096            0.04      0.05      +18%   ← decode path
+
+Fused Ternary GEMV — Wave32, no dequantize
+
+  Shape (MxK)          Time (μs)    Correct
+  ──────────────────────────────────────────
+  2560x2560 (Q/K/V/O)    37.5        ✓
+  6912x2560 (FFN up)     109.3       ✓
+  2560x6912 (FFN down)   104.0       ✓
+  4096x4096 (7B size)     98.6       ✓
+```
+
+> source + benchmarks: [rocm-cpp](https://github.com/stampby/rocm-cpp) · wiki: [bleeding-edge wiki](https://github.com/stampby/bleeding-edge/wiki)
 
 ---
 
@@ -188,13 +215,18 @@ models auto-download from huggingface. no gguf. no conversion. no waiting.
 │  lemonade sdk 10.2 — model router         │
 ├────────────┬────────────┬────────────────┤
 │ mlx engine │ vllm rocm  │ llamacpp vulkan│
-│ (bleeding) │ (pr #1537) │ (stable)       │
+│ 153 tok/s  │ 116 tok/s  │ 47 tok/s sus  │
 ├────────────┴────────────┴────────────────┤
-│  rocm 7.12 (portable) / 7.2.1 (system)   │
+│  rocm-cpp kernels (wave32 ternary gemv)   │
+├──────────────────────────────────────────┤
+│  therock 7.13 (from source, gfx1151)     │
+│  55 native tensile gemm · hipblaslt      │
 ├──────────────────────────────────────────┤
 │  amd strix halo gfx1151 · 128gb unified  │
 │  npu: xdna2 via lemonade flm             │
 └──────────────────────────────────────────┘
+
+if it can be done in c++, we do it in c++.
 ```
 
 ---
@@ -228,8 +260,10 @@ cachyos (arch linux), kernel 7.0.0-1-mainline
 
 | | |
 |---|---|
+| **[rocm-cpp](https://github.com/stampby/rocm-cpp)** | native tensile + fused ternary kernel — the c++ core |
+| **[lemon-mlx-engine](https://github.com/stampby/lemon-mlx-engine)** | forked c++ engine — 153 tok/s |
 | **[halo-ai core](https://github.com/stampby/halo-ai-core)** | stable release — 13 services, install script, full stack |
-| **[lemon-mlx-engine](https://github.com/lemonade-sdk/lemon-mlx-engine)** | upstream mlx engine |
+| **[halo-1bit](https://github.com/stampby/halo-1bit)** | 1-bit inference engine — bitnet-2b-4t |
 | **[lemonade sdk](https://github.com/lemonade-sdk/lemonade)** | model router and backend manager |
 | **[discord](https://discord.gg/dSyV646eBs)** | community — 8 ai agents, 24/7 |
 | **[r/MidlifeCrisisAI](https://reddit.com/r/MidlifeCrisisAI)** | benchmarks, stories, write-ups |
