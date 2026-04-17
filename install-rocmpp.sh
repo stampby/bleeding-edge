@@ -89,7 +89,7 @@ NPROC=$(nproc)
 HOME_DIR="$HOME"
 THEROCK_DIR="$HOME_DIR/therock"
 ROCMCPP_DIR="$HOME_DIR/rocm-cpp"
-ENGINE_DIR="$HOME_DIR/lemon-mlx-engine"
+AGENTCPP_DIR="$HOME_DIR/agent-cpp"
 FTXUI_DIR="$HOME_DIR/man-cave"
 LOG_DIR="$HOME_DIR/rocmpp-install-logs"
 
@@ -200,13 +200,13 @@ else
     ok "rocm-cpp updated"
 fi
 
-# lemon-mlx-engine
-if [[ ! -d "$ENGINE_DIR/.git" ]]; then
-    git clone https://github.com/stampby/lemon-mlx-engine.git "$ENGINE_DIR" 2>&1 | tail -3
-    ok "lemon-mlx-engine cloned"
+# agent-cpp (specialist framework — companion to rocm-cpp)
+if [[ ! -d "$AGENTCPP_DIR/.git" ]]; then
+    git clone https://github.com/stampby/agent-cpp.git "$AGENTCPP_DIR" 2>&1 | tail -3
+    ok "agent-cpp cloned"
 else
-    cd "$ENGINE_DIR" && git pull --ff-only 2>/dev/null || true
-    ok "lemon-mlx-engine updated"
+    cd "$AGENTCPP_DIR" && git pull --ff-only 2>/dev/null || true
+    ok "agent-cpp updated"
 fi
 
 # ── Step 5: Build TheRock ────────────────────────────────────
@@ -288,46 +288,58 @@ else
     die "TheRock BLAS build failed. Check $LOG_DIR/therock-build.log"
 fi
 
-# ── Step 6: Build rocm-cpp kernels ───────────────────────────
-log "Step 6/8: Building rocm-cpp kernels..."
+# ── Step 6: Build rocm-cpp (librocm_cpp + bitnet_decode + tests) ──
+log "Step 6/8: Building rocm-cpp (librocm_cpp + bitnet_decode)..."
 
 cd "$ROCMCPP_DIR"
+THEROCK_DIST="$THEROCK_DIR/build/dist/rocm"
 
-# Fused ternary GEMV
-log "Compiling fused ternary GEMV kernel (Wave32)..."
-hipcc -O3 --offload-arch=gfx1151 -ffast-math -munsafe-fp-atomics \
-    -I/opt/rocm/include -L/opt/rocm/lib -lamdhip64 \
-    kernels/ternary_gemv.hip tools/bench_ternary.cpp \
-    -o tools/bench_ternary 2>&1 | tail -3
-ok "Fused ternary kernel compiled"
-
-# GEMM benchmark
-log "Compiling GEMM benchmark..."
-hipcc -O3 --offload-arch=gfx1151 \
-    -I/opt/rocm/include -L/opt/rocm/lib -lrocblas -lamdhip64 \
-    tools/bench_gemm.cpp -o tools/bench_gemm 2>&1 | tail -3
-ok "GEMM benchmark compiled"
-
-# ── Step 7: Build lemon-mlx-engine ───────────────────────────
-log "Step 7/8: Building lemon-mlx-engine (C++ inference)..."
-
-cd "$ENGINE_DIR"
-
-cmake -B build -G Ninja \
+cmake -S . -B build -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DMLX_BUILD_ROCM=ON \
     -DCMAKE_HIP_ARCHITECTURES=gfx1151 \
+    -DCMAKE_HIP_COMPILER="$THEROCK_DIST/lib/llvm/bin/clang++" \
+    -DCMAKE_C_COMPILER="$THEROCK_DIST/lib/llvm/bin/clang" \
+    -DCMAKE_CXX_COMPILER="$THEROCK_DIST/lib/llvm/bin/clang++" \
     2>&1 | tail -3
 
-cmake --build build --parallel "$NPROC" > "$LOG_DIR/engine-build.log" 2>&1 &
+cmake --build build --parallel "$NPROC" \
+    --target rocm_cpp bitnet_decode test_prim_and_attn \
+    > "$LOG_DIR/rocmcpp-build.log" 2>&1 &
 BUILD_PID=$!
-monitor_build "$LOG_DIR/engine-build.log" $BUILD_PID "MLX Engine"
+monitor_build "$LOG_DIR/rocmcpp-build.log" $BUILD_PID "rocm-cpp"
 wait $BUILD_PID || true
 
-if [[ -f "build/server" && -f "build/chat" ]]; then
-    ok "lemon-mlx-engine built: server + chat"
+if [[ -f "build/librocm_cpp.so" && -f "build/bitnet_decode" ]]; then
+    ok "rocm-cpp built: librocm_cpp.so + bitnet_decode"
 else
-    warn "Engine build had issues. Check $LOG_DIR/engine-build.log"
+    warn "rocm-cpp build had issues. Check $LOG_DIR/rocmcpp-build.log"
+fi
+
+# ── Step 7: Build agent-cpp (specialist framework) ──────────
+log "Step 7/8: Building agent-cpp (specialist framework, C++20)..."
+
+cd "$AGENTCPP_DIR"
+
+# agent-cpp is pure C++20 + pthreads — no ROCm dependency for the
+# scaffold. Specialists that call into librocm_cpp pick it up from
+# LD_LIBRARY_PATH at runtime; no link-time coupling.
+cmake -S . -B build -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DAGENT_CPP_TESTS=ON \
+    2>&1 | tail -3
+
+cmake --build build --parallel "$NPROC" > "$LOG_DIR/agentcpp-build.log" 2>&1 &
+BUILD_PID=$!
+monitor_build "$LOG_DIR/agentcpp-build.log" $BUILD_PID "agent-cpp"
+wait $BUILD_PID || true
+
+if [[ -f "build/agent_cpp" ]]; then
+    ok "agent-cpp built: agent_cpp demo + 17 specialists"
+    if ./build/test_runtime 2>/dev/null | grep -q OK; then
+        ok "agent-cpp runtime smoke test: PASS"
+    fi
+else
+    warn "agent-cpp build had issues. Check $LOG_DIR/agentcpp-build.log"
 fi
 
 # ── Step 8: Build FTXUI dashboard ────────────────────────────

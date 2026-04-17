@@ -105,5 +105,5 @@ echo -e "${BOLD}╚════════════════════�
 echo ""
 echo "  Source code preserved — only build artifacts removed."
 echo "  To rebuild: ./install-rocmpp.sh"
-echo "  To fully remove source: rm -rf ~/therock ~/rocm-cpp ~/lemon-mlx-engine"
+echo "  To fully remove source: rm -rf ~/therock ~/rocm-cpp ~/agent-cpp"
 echo ""

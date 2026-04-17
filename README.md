@@ -16,8 +16,8 @@
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![ROCm](https://img.shields.io/badge/TheRock_7.13-ED1C24?style=flat&logo=amd&logoColor=white)](https://github.com/ROCm/TheRock)
-[![rocm-cpp](https://img.shields.io/badge/rocm--cpp-Wave32_Ternary-00d4ff?style=flat)](https://github.com/stampby/rocm-cpp)
-[![MLX](https://img.shields.io/badge/MLX_Engine-153_tok/s-00d4ff?style=flat)](https://github.com/stampby/lemon-mlx-engine)
+[![rocm-cpp](https://img.shields.io/badge/rocm--cpp-1bit_monster-00d4ff?style=flat)](https://github.com/stampby/rocm-cpp)
+[![agent-cpp](https://img.shields.io/badge/agent--cpp-17_specialists-00d4ff?style=flat)](https://github.com/stampby/agent-cpp)
 [![Lemonade](https://img.shields.io/badge/Lemonade_10.2.0-00d4ff?style=flat&logo=amd&logoColor=white)](https://github.com/lemonade-sdk/lemonade)
 [![Discord](https://img.shields.io/badge/Discord-halo--ai-5865F2?style=flat&logo=discord&logoColor=white)](https://discord.gg/dSyV646eBs)
 [![Reddit](https://img.shields.io/badge/Reddit-r/MidlifeCrisisAI-FF4500?style=flat&logo=reddit&logoColor=white)](https://www.reddit.com/r/MidlifeCrisisAI/)
@@ -209,22 +209,25 @@ models auto-download from huggingface. no gguf. no conversion. no waiting.
 ## the stack
 
 ```
-┌──────────────────────────────────────────┐
-│  applications (discord agents, chat, api) │
-├──────────────────────────────────────────┤
-│  lemonade sdk 10.2 — model router         │
-├────────────┬────────────┬────────────────┤
-│ mlx engine │ vllm rocm  │ llamacpp vulkan│
-│ 153 tok/s  │ 116 tok/s  │ 47 tok/s sus  │
-├────────────┴────────────┴────────────────┤
-│  rocm-cpp kernels (wave32 ternary gemv)   │
-├──────────────────────────────────────────┤
-│  therock 7.13 (from source, gfx1151)     │
-│  55 native tensile gemm · hipblaslt      │
-├──────────────────────────────────────────┤
-│  amd strix halo gfx1151 · 128gb unified  │
-│  npu: xdna2 via lemonade flm             │
-└──────────────────────────────────────────┘
+┌──────────────────────────────────────────────┐
+│  user terminal · ftxui tui (chat + stats)     │
+├──────────────────────────────────────────────┤
+│  agent-cpp runtime                            │
+│  ┌────────┬────────┬─────────┬──────┬───────┐ │
+│  │ muse   │ forge  │cartograph│warden│planner│ │
+│  │ scribe │sentinel│quarterm. │herald│magist.│ │
+│  │ ...and 7 more, one job each (lego bricks)│ │
+│  └────────┴────────┴─────────┴──────┴───────┘ │
+├──────────────────────────────────────────────┤
+│  librocm_cpp.so — the 1bit monster            │
+│  bitnet_decode  82 tok/s  bit-match vs ref    │
+│  30.04 TFlops FP16×ternary @ ¼ B memory       │
+├──────────────────────────────────────────────┤
+│  therock 7.13 (from source, gfx1151)         │
+│  native tensile · hipblaslt · wave32 wmma    │
+├──────────────────────────────────────────────┤
+│  amd strix halo gfx1151 · 128gb unified      │
+└──────────────────────────────────────────────┘
 
 if it can be done in c++, we do it in c++.
 ```
@@ -260,10 +263,10 @@ cachyos (arch linux), kernel 7.0.0-1-mainline
 
 | | |
 |---|---|
-| **[rocm-cpp](https://github.com/stampby/rocm-cpp)** | native tensile + fused ternary kernel — the c++ core |
-| **[lemon-mlx-engine](https://github.com/stampby/lemon-mlx-engine)** | forked c++ engine — 153 tok/s |
+| **[rocm-cpp](https://github.com/stampby/rocm-cpp)** | librocm_cpp — the 1-bit monster (82 tok/s BitNet-2B-4T, bit-match vs PyTorch ref) |
+| **[agent-cpp](https://github.com/stampby/agent-cpp)** | specialist framework — 17 agents, one job each, FTXUI-ready |
 | **[halo-ai core](https://github.com/stampby/halo-ai-core)** | stable release — 13 services, install script, full stack |
-| **[halo-1bit](https://github.com/stampby/halo-1bit)** | 1-bit inference engine — bitnet-2b-4t |
+| **[halo-1bit](https://github.com/stampby/halo-1bit)** | model pipeline — bitnet-2b-4t export + .h1b absmean quant |
 | **[lemonade sdk](https://github.com/lemonade-sdk/lemonade)** | model router and backend manager |
 | **[discord](https://discord.gg/dSyV646eBs)** | community — 8 ai agents, 24/7 |
 | **[r/MidlifeCrisisAI](https://reddit.com/r/MidlifeCrisisAI)** | benchmarks, stories, write-ups |
